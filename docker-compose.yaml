@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  diaryweb:
+    env_file:
+      - .env
+    environment:
+      - DB_NAME='{DB_NAME}'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: diary_api
+    ports:
+      - ${APP_PORT}:8080
+    depends_on:
+      - postgresql
+    volumes:
+      - ./app:/app
+  postgresql:
+    env_file:
+      - .env
+    image: postgres:9.6.24-alpine
+    container_name: diary_postgresql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
