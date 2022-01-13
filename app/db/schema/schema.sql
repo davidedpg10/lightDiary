@@ -3,6 +3,5 @@ CREATE TABLE "entries" (
   "title" varchar,
   "message" varchar,
   "mood" varchar[],
-  "created_at" timestamptz default current_timestamp,
-  "country_code" int
+  "created_at" timestamptz default current_timestamp
 );

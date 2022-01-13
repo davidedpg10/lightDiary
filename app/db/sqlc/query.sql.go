@@ -11,7 +11,7 @@ import (
 )
 
 const createEntry = `-- name: CreateEntry :one
-INSERT INTO entries (title, message, mood) VALUES ($1, $2, $3) RETURNING id, title, message, mood, created_at, country_code
+INSERT INTO entries (title, message, mood) VALUES ($1, $2, $3) RETURNING id, title, message, mood, created_at
 `
 
 type CreateEntryParams struct {
@@ -29,7 +29,6 @@ func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry
 		&i.Message,
 		pq.Array(&i.Mood),
 		&i.CreatedAt,
-		&i.CountryCode,
 	)
 	return i, err
 }
@@ -45,7 +44,7 @@ func (q *Queries) DeleteEntry(ctx context.Context, id int32) (int32, error) {
 }
 
 const getEntry = `-- name: GetEntry :one
-SELECT id, title, message, mood, created_at, country_code FROM entries WHERE id = $1 LIMIT 1
+SELECT id, title, message, mood, created_at FROM entries WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetEntry(ctx context.Context, id int32) (Entry, error) {
@@ -57,13 +56,12 @@ func (q *Queries) GetEntry(ctx context.Context, id int32) (Entry, error) {
 		&i.Message,
 		pq.Array(&i.Mood),
 		&i.CreatedAt,
-		&i.CountryCode,
 	)
 	return i, err
 }
 
 const listEntries = `-- name: ListEntries :many
-SELECT id, title, message, mood, created_at, country_code FROM entries ORDER BY created_at DESC
+SELECT id, title, message, mood, created_at FROM entries ORDER BY created_at DESC
 `
 
 func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
@@ -81,7 +79,6 @@ func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
 			&i.Message,
 			pq.Array(&i.Mood),
 			&i.CreatedAt,
-			&i.CountryCode,
 		); err != nil {
 			return nil, err
 		}
@@ -97,7 +94,7 @@ func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
 }
 
 const updateEntry = `-- name: UpdateEntry :one
-UPDATE entries SET title = $1, message = $2 , mood = $3 WHERE id = $4 RETURNING id, title, message, mood, created_at, country_code
+UPDATE entries SET title = $1, message = $2 , mood = $3 WHERE id = $4 RETURNING id, title, message, mood, created_at
 `
 
 type UpdateEntryParams struct {
@@ -121,7 +118,6 @@ func (q *Queries) UpdateEntry(ctx context.Context, arg UpdateEntryParams) (Entry
 		&i.Message,
 		pq.Array(&i.Mood),
 		&i.CreatedAt,
-		&i.CountryCode,
 	)
 	return i, err
 }
