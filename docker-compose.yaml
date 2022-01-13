@@ -7,7 +7,7 @@ services:
       - DB_NAME='{DB_NAME}'
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: live_reload.Dockerfile
     container_name: diary_api
     ports:
       - ${APP_PORT}:8080
