@@ -6,25 +6,30 @@ package db
 import (
 	"context"
 	"database/sql"
+
+	"github.com/lib/pq"
 )
 
 const createEntry = `-- name: CreateEntry :one
-INSERT INTO entries (title, message) VALUES ($1, $2) RETURNING id, title, message, created_at
+INSERT INTO entries (title, message, mood) VALUES ($1, $2, $3) RETURNING id, title, message, mood, created_at, country_code
 `
 
 type CreateEntryParams struct {
 	Title   sql.NullString `json:"title"`
 	Message sql.NullString `json:"message"`
+	Mood    []string       `json:"mood"`
 }
 
 func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, createEntry, arg.Title, arg.Message)
+	row := q.db.QueryRowContext(ctx, createEntry, arg.Title, arg.Message, pq.Array(arg.Mood))
 	var i Entry
 	err := row.Scan(
 		&i.ID,
 		&i.Title,
 		&i.Message,
+		pq.Array(&i.Mood),
 		&i.CreatedAt,
+		&i.CountryCode,
 	)
 	return i, err
 }
@@ -40,7 +45,7 @@ func (q *Queries) DeleteEntry(ctx context.Context, id int32) (int32, error) {
 }
 
 const getEntry = `-- name: GetEntry :one
-SELECT id, title, message, created_at FROM entries WHERE id = $1 LIMIT 1
+SELECT id, title, message, mood, created_at, country_code FROM entries WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetEntry(ctx context.Context, id int32) (Entry, error) {
@@ -50,13 +55,15 @@ func (q *Queries) GetEntry(ctx context.Context, id int32) (Entry, error) {
 		&i.ID,
 		&i.Title,
 		&i.Message,
+		pq.Array(&i.Mood),
 		&i.CreatedAt,
+		&i.CountryCode,
 	)
 	return i, err
 }
 
 const listEntries = `-- name: ListEntries :many
-SELECT id, title, message, created_at FROM entries ORDER BY created_at DESC
+SELECT id, title, message, mood, created_at, country_code FROM entries ORDER BY created_at DESC
 `
 
 func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
@@ -72,7 +79,9 @@ func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
 			&i.ID,
 			&i.Title,
 			&i.Message,
+			pq.Array(&i.Mood),
 			&i.CreatedAt,
+			&i.CountryCode,
 		); err != nil {
 			return nil, err
 		}
@@ -88,23 +97,31 @@ func (q *Queries) ListEntries(ctx context.Context) ([]Entry, error) {
 }
 
 const updateEntry = `-- name: UpdateEntry :one
-UPDATE entries SET title = $1, message = $2 WHERE id = $3 RETURNING id, title, message, created_at
+UPDATE entries SET title = $1, message = $2 , mood = $3 WHERE id = $4 RETURNING id, title, message, mood, created_at, country_code
 `
 
 type UpdateEntryParams struct {
 	Title   sql.NullString `json:"title"`
 	Message sql.NullString `json:"message"`
+	Mood    []string       `json:"mood"`
 	ID      int32          `json:"id"`
 }
 
 func (q *Queries) UpdateEntry(ctx context.Context, arg UpdateEntryParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, updateEntry, arg.Title, arg.Message, arg.ID)
+	row := q.db.QueryRowContext(ctx, updateEntry,
+		arg.Title,
+		arg.Message,
+		pq.Array(arg.Mood),
+		arg.ID,
+	)
 	var i Entry
 	err := row.Scan(
 		&i.ID,
 		&i.Title,
 		&i.Message,
+		pq.Array(&i.Mood),
 		&i.CreatedAt,
+		&i.CountryCode,
 	)
 	return i, err
 }
