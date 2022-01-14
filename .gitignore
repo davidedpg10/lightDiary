@@ -7,6 +7,7 @@
 
 # App tmp files
 app/tmp
+live-reload-init/tmp
 
 # Test binary, built with `go test -c`
 *.test
