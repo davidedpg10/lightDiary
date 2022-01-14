@@ -15,7 +15,7 @@ The backend API of the application is written in Go (hence the name), while the 
 ```http
   GET /api/entry/list
 ```
-#### Get single entry
+#### Get entry
 
 ```http
   GET /api/entry/get?id=${id}
@@ -52,3 +52,6 @@ The backend API of the application is written in Go (hence the name), while the 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of entry to delete |
+
+# License
+This project is licensed (or unlicensed) by [The Unlicense](https://github.com/davidedpg10/golang-diary/blob/master/LICENSE), as it's mostly a learning vehicle for me. You are free to copy, modify, distribute this content at will, with or without attribution.
