@@ -8,6 +8,15 @@ The backend API of the application is written in Go (hence the name), while the 
 
 
 
+## Tech Stack
+
+**Client:** [Svelte](https://svelte.dev/)
+
+**Server:** Golang [net/http](https://pkg.go.dev/net/http)
+
+**Database:** [Postgresql](https://www.postgresql.org/)
+
+
 ## API Reference
 
 #### Get all entries
