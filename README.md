@@ -15,7 +15,7 @@ The backend API of the application is written in Go (hence the name), while the 
 ```http
   GET /api/entry/list
 ```
-#### Get entry
+#### Get single entry
 
 ```http
   GET /api/entry/get?id=${id}
