@@ -3,8 +3,6 @@ services:
   diaryweb:
     env_file:
       - .env
-    environment:
-      - DB_NAME='{DB_NAME}'
     build:
       context: .
       dockerfile: live_reload.Dockerfile
@@ -21,6 +19,5 @@ services:
       - .env
     image: postgres:9.6.24-alpine
     container_name: diary_postgresql
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ../app/db/schema/:/docker-entrypoint-initdb.d/
