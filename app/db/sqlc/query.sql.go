@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/lib/pq"
 )
@@ -15,9 +14,9 @@ INSERT INTO entries (title, message, mood) VALUES ($1, $2, $3) RETURNING id, tit
 `
 
 type CreateEntryParams struct {
-	Title   sql.NullString `json:"title"`
-	Message sql.NullString `json:"message"`
-	Mood    []string       `json:"mood"`
+	Title   string   `json:"title"`
+	Message string   `json:"message"`
+	Mood    []string `json:"mood"`
 }
 
 func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
@@ -34,13 +33,20 @@ func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry
 }
 
 const deleteEntry = `-- name: DeleteEntry :one
-DELETE FROM entries WHERE id = $1 RETURNING id
+DELETE FROM entries WHERE id = $1 RETURNING id, title, message, mood, created_at
 `
 
-func (q *Queries) DeleteEntry(ctx context.Context, id int32) (int32, error) {
+func (q *Queries) DeleteEntry(ctx context.Context, id int32) (Entry, error) {
 	row := q.db.QueryRowContext(ctx, deleteEntry, id)
-	err := row.Scan(&id)
-	return id, err
+	var i Entry
+	err := row.Scan(
+		&i.ID,
+		&i.Title,
+		&i.Message,
+		pq.Array(&i.Mood),
+		&i.CreatedAt,
+	)
+	return i, err
 }
 
 const getEntry = `-- name: GetEntry :one
@@ -98,10 +104,10 @@ UPDATE entries SET title = $1, message = $2 , mood = $3 WHERE id = $4 RETURNING 
 `
 
 type UpdateEntryParams struct {
-	Title   sql.NullString `json:"title"`
-	Message sql.NullString `json:"message"`
-	Mood    []string       `json:"mood"`
-	ID      int32          `json:"id"`
+	Title   string   `json:"title"`
+	Message string   `json:"message"`
+	Mood    []string `json:"mood"`
+	ID      int32    `json:"id"`
 }
 
 func (q *Queries) UpdateEntry(ctx context.Context, arg UpdateEntryParams) (Entry, error) {

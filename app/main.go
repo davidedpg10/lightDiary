@@ -19,7 +19,7 @@ func init() {
 	dbPort = 5432
 	dbUser = os.Getenv("POSTGRES_USER")
 	dbPass = os.Getenv("POSTGRES_PASSWORD")
-	dbName = os.Getenv("DB_NAME")
+	dbName = os.Getenv("POSTGRES_DB")
 	dbDriver = "postgres"
 	dbSource = fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable", dbUser, dbPass, dbHost, dbPort, dbName)
 }

@@ -7,9 +7,9 @@ import (
 )
 
 type Entry struct {
-	ID        int32          `json:"id"`
-	Title     sql.NullString `json:"title"`
-	Message   sql.NullString `json:"message"`
-	Mood      []string       `json:"mood"`
-	CreatedAt sql.NullTime   `json:"created_at"`
+	ID        int32        `json:"id"`
+	Title     string       `json:"title"`
+	Message   string       `json:"message"`
+	Mood      []string     `json:"mood"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }

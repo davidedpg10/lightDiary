@@ -11,4 +11,4 @@ INSERT INTO entries (title, message, mood) VALUES ($1, $2, $3) RETURNING *;
 UPDATE entries SET title = $1, message = $2 , mood = $3 WHERE id = $4 RETURNING *;
 
 -- name: DeleteEntry :one
-DELETE FROM entries WHERE id = $1 RETURNING id;
+DELETE FROM entries WHERE id = $1 RETURNING *;
