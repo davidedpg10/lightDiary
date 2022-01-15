@@ -13,7 +13,7 @@ The backend API of the application is written in Go (hence the name), while the 
 
 ## Tech Stack
 
-**Client:** [Svelte](https://svelte.dev/)
+**Client:** [SvelteKit](https://kit.svelte.dev/)
 
 **Server:** Golang [net/http](https://pkg.go.dev/net/http)
 
