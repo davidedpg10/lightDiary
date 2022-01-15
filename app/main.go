@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	db "github.com/davidedpg10/golang-diary/db/sqlc"
-	api "github.com/davidedpg10/golang-diary/http"
+	db "github.com/davidedpg10/lightDiary/db/sqlc"
+	api "github.com/davidedpg10/lightDiary/http"
 	_ "github.com/lib/pq"
 )
 

@@ -1,5 +1,5 @@
 {
-  "name": "golang-diary-web",
+  "name": "light-diary-web",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",

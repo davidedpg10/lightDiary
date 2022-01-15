@@ -1,4 +1,4 @@
-module github.com/davidedpg10/golang-diary
+module github.com/davidedpg10/lightDiary
 
 go 1.17
 

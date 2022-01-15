@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	db "github.com/davidedpg10/golang-diary/db/sqlc"
+	db "github.com/davidedpg10/lightDiary/db/sqlc"
 )
 
 type SingleEntryParams struct {
