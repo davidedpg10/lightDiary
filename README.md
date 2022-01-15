@@ -1,5 +1,5 @@
 
-![Logo](/assets/images/lightDiary-logo-400-100.png)
+![Logo](/assets/images/lightDiary-logo-400-100-green.png)
 
 # lightDiary
 
