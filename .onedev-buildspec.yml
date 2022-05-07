@@ -5,6 +5,7 @@ jobs:
   - !PushRepository
     name: push to github
     remoteUrl: https://github.com/davidedpg10/lightDiary
+    passwordSecret: gh
     withLfs: false
     force: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
